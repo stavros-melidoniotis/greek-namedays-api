@@ -4,6 +4,7 @@ import express from 'express'
 import path from 'path'
 
 import { promises as fs } from 'fs'
+import { calculateEasterSunday } from './helpers.js'
 
 const PORT = process.env.PORT || '8080'
 const __dirname = path.resolve()
@@ -30,6 +31,16 @@ app.get('/api/v1/namedays/fixed', async (req, res) => {
             message: "Unexpected error occured."
         })
     }
+})
+
+app.get('/api/v1/easter-day', (req, res) => {
+    const year = req.query.year
+    const easterDay = calculateEasterSunday(year)
+
+    res.send({
+        success: true,
+        easter_day: easterDay
+    })
 })
 
 app.get('/api/v1/*', async (req, res) => {
