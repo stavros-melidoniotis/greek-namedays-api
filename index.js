@@ -29,8 +29,10 @@ app.get('/api/v1/namedays', async (req, res) => {
             return
         }
 
-        const fixedNamedays = await fs.readFile(fixedNamedaysPath, 'utf8')
-        const movingNamedays = await fs.readFile(movingNamedaysPath, 'utf8')
+        const [fixedNamedays, movingNamedays] = await Promise.all([
+            fs.readFile(fixedNamedaysPath, 'utf8'),
+            fs.readFile(movingNamedaysPath, 'utf8')
+        ])
         const namedays = calculateNamedays(fixedNamedays, movingNamedays, year)
 
         res.send({
