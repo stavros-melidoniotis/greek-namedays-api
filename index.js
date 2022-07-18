@@ -48,6 +48,33 @@ app.get('/api/v1/namedays', async (req, res) => {
     }
 })
 
+app.get('/api/v1/namedays/today', async (req, res) => {
+    try {
+        const today = new Date()
+        const year = today.getFullYear()
+
+        const [fixedNamedays, movingNamedays] = await Promise.all([
+            fs.readFile(fixedNamedaysPath, 'utf8'),
+            fs.readFile(movingNamedaysPath, 'utf8')
+        ])
+        const namedays = calculateNamedays(fixedNamedays, movingNamedays, year)
+        const todaysNamedays = namedays[`${today.getDate()}/${today.getMonth() + 1}`]
+
+        res.send({
+            success: true,
+            today: todaysNamedays
+        })
+    } catch (err) {
+        console.error(err)
+
+        res.status(500)
+        res.send({
+            success: false,
+            message: errorMessages.unexpectedError
+        })
+    }
+})
+
 app.get('/api/v1/easter-day', (req, res) => {
     const year = req.query.year ?? new Date().getFullYear()
 
