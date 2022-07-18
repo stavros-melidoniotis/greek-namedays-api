@@ -32,6 +32,18 @@ Sample Response:
 }
 ```
 
+```/api/v1/namedays/today```: Returns the namedays of the current date.
+
+Sample Response:
+```
+{
+    "success": true,
+    "today": {
+      "names": [...]
+    }
+}
+```
+
 <br>
 
 ```/api/v1/easter-day```: Returns the day of current year's Easter as a timestamp.
