@@ -6,7 +6,7 @@ import { calculateNamedays } from './helpers/namedays.js'
 import { calculateEasterSunday, yearIsValid } from './helpers/dates.js'
 import errorMessages from './errorMessages.js'
 
-const PORT = '8080'
+const PORT = process.env.PORT || '8080'
 const __dirname = path.resolve()
 const app = express()
 
